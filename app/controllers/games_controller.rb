@@ -10,6 +10,11 @@ class GamesController < ApplicationController
 
   def show
     # respond_with(@game)
+    user = User.new(email: "temp#{Random.new.rand(0..99999999)}@temp.com")
+    user.password = 'password1'
+    user.password_confirmation = 'password1'
+    @user = current_user || user
+    @user.save
     render '/games/tic_tac_toe'
   end
 

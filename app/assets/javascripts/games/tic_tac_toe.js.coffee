@@ -1,6 +1,6 @@
 class @TicTacToe
   
-  constructor: (@canvas, @context, @socket) ->
+  constructor: (@canvas, @context, @socket, @user_id) ->
     @draw()
     @handlers()
 
@@ -8,12 +8,19 @@ class @TicTacToe
     me = this
     $('#canvas').click((event) ->
       coors = me.getMousePosition(me.canvas, event) 
-      me.drawX(coors.x, coors.y)
-      me.socket.emit('playermove', {x: coors.x, y: coors.y})
+      console.log(window.character)
+      if(window.character == 'X')
+        me.drawX(coors.x, coors.y)
+      if (window.character == 'O')
+        me.drawO(coors.x, coors.y)
+      me.socket.emit('playermove', {x: coors.x, y: coors.y, user_id: me.user_id})
     )
 
   incoming: (data) ->
-    alert data.coors
+      if(window.character == 'X')
+        @drawO(data.coors.x, data.coors.y)
+      if (window.character == 'O')
+        @drawX(data.coors.x, data.coors.y)
 
   getMousePosition: (canvas, event)->
     rect = canvas.getBoundingClientRect()
@@ -32,6 +39,10 @@ class @TicTacToe
     @context.lineTo(x - 20, y + 20)
     @context.stroke()
 
+  drawO: (x, y) ->
+    @context.beginPath()
+    @context.arc(x,y,20,0,2*Math.PI)
+    @context.stroke()
 
   draw: () ->
     @context.beginPath()

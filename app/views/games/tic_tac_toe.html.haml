@@ -1,20 +1,34 @@
 %h1 Tic Tac Toe
+%h2 
+  Game:
+  #game
 %center{style: "border: 1px solid black"}
   %canvas{:width => 500, :height => 400, id: 'canvas'}
 
 %script{:src => "http://localhost:3001/socket.io/socket.io.js"}
 
 :javascript
-
-
   var socket = io.connect('http://localhost:3001');
   var canvas = document.querySelector("canvas");
   var ctx = canvas.getContext("2d");
-  runner = new TicTacToe(canvas, ctx, socket);
-
+  runner = new TicTacToe(canvas, ctx, socket, '#{@user.id}');
+  socket.emit('set_user', #{@user.to_json})
   socket.on('news', function (data) {
+    $('#game').html(data.game_id)
     console.log(data);
     runner.incoming(data);
   });
+  socket.on('stats', function (data) {
+    $('#game').html(data)
+    console.log(data);
+  });
+  socket.on('wait', function (data) {
+    $('#game').html(data)
+    console.log(data);
+  });
 
+  socket.on('setcharacter', function (data) {
+    console.log(data);
+    window.character = data;
+  });
 
