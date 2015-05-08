@@ -12,6 +12,10 @@ class @TicTacToe
       me.socket.emit('playermove', {x: coors.x, y: coors.y, user_id: me.user_id})
     )
 
+  answer: (coors) ->
+    alert coors
+
+
   incoming: (data) ->
     console.log(data)
     if(data.character == 'X')
