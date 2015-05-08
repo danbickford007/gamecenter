@@ -74,7 +74,9 @@ io.on('connection', function (socket) {
 
     if(!board.evaluate(position, socket.character)){
       socket.emit('alert', 'bad move...');
-      
+    }
+    if(board.success != false){
+      socket.emit('alert', 'WINNER!');
     }else{
       if(socket.opponent)
         socket.opponent.emit('news', {coors: coors, game_id: socket.game_id, character: socket.character});
