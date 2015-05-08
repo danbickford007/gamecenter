@@ -29,6 +29,7 @@ board.prototype.evaluate = function(position, character){
     return false
   }
   if(!this[position]){
+    this.nextCharacter = this.nextCharacter == '' ? (character == 'X' ? 'X' : 'O') : this.nextCharacter 
     this.nextCharacter = (this.nextCharacter == 'X' ? 'O' : 'X')
     this[position] = character
     if(!!this.A1){
@@ -76,22 +77,6 @@ board.prototype.evaluate = function(position, character){
 
       }
     }
-    // if((!!this.A1 && (
-    //     (this.A1 === this.A2 && this.A1 === this.A3) || 
-    //     (this.A1 === this.B2 && this.A1 === this.C3) || 
-    //     (this.A3 === this.B2 && this.A1 === this.C1) ||
-    //     (this.A1 === this.B1 && this.A1 === this.C1)
-    //   )) || 
-    //   (!!this.B1 && (
-    //     (this.B1 === this.B2 && this.B1 === this.B3) ||
-    //     (this.B1 === this.B2 && this.B1 === this.B3) 
-    //   )) || 
-    //   (!!this.C1 && (
-    //     (this.C1 === this.C2 && this.C1 === this.C3) ||
-    //     (this.C1 === this.C2 && this.C1 === this.C3) 
-    //   ))){
-    //     this.success = character
-    // }
     console.log(this);
     return true 
   }

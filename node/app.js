@@ -74,17 +74,22 @@ io.on('connection', function (socket) {
 
     if(!board.evaluate(position, socket.character)){
       socket.emit('alert', 'bad move...');
-    }
-    if(board.success != false){
+    } else if(board.success != false){
       if(socket.opponent)
         socket.opponent.emit('success', socket.board.success_coors);
         socket.opponent.emit('alert', 'You Lose');
       socket.emit('success', socket.board.success_coors);
       socket.emit('alert', 'You Win!!!');
+      if(socket.opponent){
+        socket.opponent.emit('news', {coors: coors, game_id: socket.game_id, character: socket.character});
+      }
+      socket.emit('news', {coors: coors, game_id: socket.game_id, character: socket.character});
+    }else{
+      if(socket.opponent){
+        socket.opponent.emit('news', {coors: coors, game_id: socket.game_id, character: socket.character});
+      }
+      socket.emit('news', {coors: coors, game_id: socket.game_id, character: socket.character});
     }
-    if(socket.opponent)
-      socket.opponent.emit('news', {coors: coors, game_id: socket.game_id, character: socket.character});
-    socket.emit('news', {coors: coors, game_id: socket.game_id, character: socket.character});
 
 
   });

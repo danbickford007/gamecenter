@@ -1,14 +1,19 @@
 %h1 Tic Tac Toe
 %h2 
-  Game:
   #game
+%h2 
+  #info
+%h2 
+  = link_to 'New Game', '#', onclick: 'window.location.reload(true)'
+  \|
+  = link_to 'Home', '/'
 %center{style: "border: 1px solid black"}
   %canvas{:width => 500, :height => 400, id: 'canvas'}
 
-%script{:src => "http://localhost:3001/socket.io/socket.io.js"}
+%script{:src => "http://192.168.0.13:3001/socket.io/socket.io.js"}
 
 :javascript
-  var socket = io.connect('http://localhost:3001');
+  var socket = io.connect('http://192.168.0.13:3001');
   var canvas = document.querySelector("canvas");
   var ctx = canvas.getContext("2d");
   runner = new TicTacToe(canvas, ctx, socket, '#{@user.id}');
@@ -30,6 +35,7 @@
   socket.on('setcharacter', function (data) {
     console.log(data);
     window.character = data;
+    $('#info').html('You are '+ window.character)
   });
   socket.on('alert', function (data) {
     alert(data);
