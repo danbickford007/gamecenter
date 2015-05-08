@@ -34,5 +34,9 @@
   socket.on('alert', function (data) {
     alert(data);
   });
+  socket.on('success', function (data) {
+    console.log(data);
+    runner.answer(data)
+  });
 
 

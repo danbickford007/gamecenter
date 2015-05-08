@@ -13,7 +13,12 @@ class @TicTacToe
     )
 
   answer: (coors) ->
-    alert coors
+    @context.beginPath()
+
+    @context.moveTo(coors.x1, coors.y1)
+    @context.lineTo(coors.x2, coors.y2)
+
+    @context.stroke()
 
 
   incoming: (data) ->
